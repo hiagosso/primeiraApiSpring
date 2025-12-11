@@ -1,13 +1,11 @@
 package com.hiagodev.course.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "tb_user")
@@ -18,18 +16,15 @@ public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
-    @Column
     private String name;
-    
-    @Column
     private String email;
-    
-    @Column
     private String phone;
-    
-    @Column
     private String password;
+
+
+    @OneToMany(mappedBy = "client")
+    @JsonIgnore
+    private List<Order> Orders = new ArrayList<>();
 
     public User() {
     }
@@ -81,7 +76,10 @@ public class User implements Serializable {
         this.password = password;
     }
 
-
+    @JsonIgnore
+    public List<Order> getOrders() {
+        return Orders;
+    }
 
     @Override
     public int hashCode() {
@@ -90,8 +88,6 @@ public class User implements Serializable {
         result = prime * result + ((id == null) ? 0 : id.hashCode());
         return result;
     }
-
-
 
     @Override
     public boolean equals(Object obj) {
@@ -109,7 +105,5 @@ public class User implements Serializable {
             return false;
         return true;
     }
-    
-    
-    
+
 }
