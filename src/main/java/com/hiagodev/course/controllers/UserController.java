@@ -1,21 +1,34 @@
 package com.hiagodev.course.controllers;
 
+import com.hiagodev.course.services.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hiagodev.course.entities.User;
+
+import java.util.List;
 
 
 @RestController
 @RequestMapping(value ="/users")
 public class UserController {
 
+    @Autowired
+    private UserService userService;
+
     @GetMapping
-    public ResponseEntity<User> findAll(){
-        User u1 = new User("hiago", "souza8hiago@email.com", "1192929292", "coisa");
-        
-        return ResponseEntity.ok().body(u1);
+    public ResponseEntity<List<User>> findAll(){
+        List<User> list = userService.findAll();
+        return ResponseEntity.ok().body(list);
+    }
+
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<User> findyById(@PathVariable Long id){
+        User obj = userService.findyById(id);
+        return ResponseEntity.ok().body(obj);
     }
 }
