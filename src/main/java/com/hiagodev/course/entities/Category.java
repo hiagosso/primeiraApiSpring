@@ -1,5 +1,6 @@
 package com.hiagodev.course.entities;
 
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
@@ -12,7 +13,7 @@ import java.util.Set;
 @Entity
 public class Category implements Serializable {
     @Serial
-    public static final Long serialversionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,7 +21,7 @@ public class Category implements Serializable {
     private String name;
 
     @JsonIgnore
-    @OneToMany
+    @ManyToMany(mappedBy = "categories")
     private Set<Product> products = new HashSet<>();
 
     public Category() {
@@ -47,8 +48,8 @@ public class Category implements Serializable {
         this.name = name;
     }
 
+
     @JsonIgnore
-    @OneToMany
     public Set<Product> getProducts() {
         return products;
     }

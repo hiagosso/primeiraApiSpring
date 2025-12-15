@@ -1,9 +1,6 @@
 package com.hiagodev.course.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -24,7 +21,8 @@ public class Product implements Serializable {
     private Double price;
     private String imgURL;
 
-
+    @ManyToMany
+    @JoinTable(name = "tb_product_category", joinColumns = @JoinColumn(name = "product_id"))
     private Set<Category> categories = new HashSet<>();
 
     public Product() {
@@ -78,6 +76,10 @@ public class Product implements Serializable {
         this.imgURL = imgURL;
     }
 
+    @ManyToMany
+    @JoinTable(name = "tb_product_category", joinColumns = @JoinColumn(name = "product_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id")
+    )
     public Set<Category> getCategories() {
         return categories;
     }
